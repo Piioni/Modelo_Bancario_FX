@@ -1,13 +1,13 @@
 package foc.es.banco.client.service;
 
-import foc.es.banco.ClienteRepository;
+import foc.es.banco.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ClienteReadService {
-    private final ClienteRepository clientRepository;
+public class ClientReadService {
+    private final ClientRepository clientRepository;
 
-    public ClienteReadService(ClienteRepository clientRepository) {
+    public ClientReadService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 

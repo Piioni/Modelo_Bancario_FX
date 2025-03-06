@@ -1,6 +1,6 @@
 package foc.es.banco.cuenta.model;
 
-import foc.es.banco.client.model.Cliente;
+import foc.es.banco.client.model.Client;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
@@ -9,6 +9,7 @@ import lombok.Data;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_cuenta", discriminatorType = DiscriminatorType.STRING)
+@Table(name = "cuenta")
 public abstract class Cuenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +22,7 @@ public abstract class Cuenta {
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
-    protected Cliente titular;
+    protected Client titular;
 
 
 
