@@ -1,7 +1,11 @@
 package foc.es.banco.client.service;
 
+import foc.es.banco.client.model.Client;
 import foc.es.banco.repository.ClientRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClientReadService {
@@ -11,33 +15,18 @@ public class ClientReadService {
         this.clientRepository = clientRepository;
     }
 
-    public void get() {
-        clientRepository.findAll();
+    public List<Client> get() {
+        return clientRepository.findAll();
     }
 
-    public void getById() {
-        clientRepository.findById(1);
+    public Optional<Client> getById(Integer id) {
+        return clientRepository.findById(id);
     }
 
-//    public void getByDni() {
-//        clientRepository.findByDni("12345678A");
-//    }
-//
-//    public void getByNombre() {
-//        clientRepository.findByNombre("Pepe");
-//    }
-//
-//    public void getByApellidos() {
-//        clientRepository.findByApellidos("García");
-//    }
-//
-//    public void getByDireccion() {
-//        clientRepository.findByDireccion("Calle Falsa 123");
-//    }
-//
-//    public void getByTelefono() {
-//        clientRepository.findByTelefono("123456789");
-//    }
+    public List<Client> getByName (String name) {
+        return clientRepository.findByName(name);
+    }
+
 
 
 
