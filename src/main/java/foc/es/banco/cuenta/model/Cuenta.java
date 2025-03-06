@@ -1,6 +1,8 @@
-package foc.es.banco.model;
+package foc.es.banco.cuenta.model;
 
+import foc.es.banco.client.model.Cliente;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 @Data
@@ -12,6 +14,7 @@ public abstract class Cuenta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int numeroDeCuenta;
 
+    @PositiveOrZero
     @Column(name = "saldo", nullable = false)
     protected double saldo;
 
@@ -20,18 +23,7 @@ public abstract class Cuenta {
     @JoinColumn(name = "cliente_id")
     protected Cliente titular;
 
-    // Constructores
-    public Cuenta(int numeroDeCuenta, double saldo, Cliente titular) {
-        this.numeroDeCuenta = numeroDeCuenta;
-        this.saldo = saldo;
-        this.titular = titular;
-    }
 
-    public Cuenta() {
-        this.numeroDeCuenta = 0;
-        this.saldo = 0;
-        this.titular = null;
-    }
 
     public void ingresar(double cantidad) {
         saldo += cantidad;

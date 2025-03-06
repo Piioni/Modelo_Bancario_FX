@@ -1,15 +1,18 @@
-package foc.es.banco.model;
+package foc.es.banco.cuenta.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.validation.constraints.PositiveOrZero;
+
+@Entity
+@DiscriminatorValue("Corriente")
 public class CuentaCorriente extends Cuenta implements OperacionesBancarias {
+
+    @PositiveOrZero
+    @Column
     private final double interes = 0.15;
 
-    public CuentaCorriente(int numeroDeCuenta, double saldo, Cliente titular) {
-        super(numeroDeCuenta, saldo, titular);
-    }
-
-    public CuentaCorriente() {
-        super();
-    }
 
     @Override
     public void retirar(double cantidad) {
