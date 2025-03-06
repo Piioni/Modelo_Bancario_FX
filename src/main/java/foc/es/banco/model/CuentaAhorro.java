@@ -1,4 +1,4 @@
-package modeloBancario;
+package foc.es.banco.model;
 
 public class CuentaAhorro extends Cuenta implements OperacionesBancarias {
     private double interes;

@@ -1,4 +1,4 @@
-package modeloBancario;
+package foc.es.banco.model;
 
 public interface OperacionesBancarias {
     void transferir(Cuenta origen, Cuenta destino, double cantidad);

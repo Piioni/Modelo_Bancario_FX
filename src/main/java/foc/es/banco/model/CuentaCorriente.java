@@ -1,4 +1,4 @@
-package modeloBancario;
+package foc.es.banco.model;
 
 public class CuentaCorriente extends Cuenta implements OperacionesBancarias {
     private final double interes = 0.15;

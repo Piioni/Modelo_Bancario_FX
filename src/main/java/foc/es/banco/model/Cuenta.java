@@ -1,8 +1,23 @@
-package modeloBancario;
+package foc.es.banco.model;
 
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Data
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_cuenta", discriminatorType = DiscriminatorType.STRING)
 public abstract class Cuenta {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int numeroDeCuenta;
+
+    @Column(name = "saldo", nullable = false)
     protected double saldo;
+
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
     protected Cliente titular;
 
     // Constructores
@@ -27,28 +42,4 @@ public abstract class Cuenta {
 
     public abstract void actualizarSaldo();
 
-    // Getters and Setters
-    public int getNumeroDeCuenta() {
-        return numeroDeCuenta;
-    }
-
-    public void setNumeroDeCuenta(int numeroDeCuenta) {
-        this.numeroDeCuenta = numeroDeCuenta;
-    }
-
-    public double getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
-    }
-
-    public Cliente getTitular() {
-        return titular;
-    }
-
-    public void setTitular(Cliente titular) {
-        this.titular = titular;
-    }
 }

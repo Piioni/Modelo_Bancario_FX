@@ -1,7 +1,16 @@
-package modeloBancario;
+package foc.es.banco.model;
 
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Data
+@Entity
 public class Cliente {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(nullable = false)
     private String nome;
     private String direccion;
     private String telefono;
