@@ -1,4 +1,4 @@
-package modeloBancario;
+package foc.es.banco.modeloBancario.classes;
 
 public abstract class Cuenta {
     protected int numeroDeCuenta;
