@@ -9,9 +9,10 @@ public class Transaccion {
     private double cantidad;
     private Date fecha;
     private TipoTransaccion tipo;
+    public static int contador = 0;
 
-    public Transaccion(int id, double cantidad, TipoTransaccion tipo) {
-        this.id = id;
+    public Transaccion(double cantidad, TipoTransaccion tipo) {
+        this.id = contador++;
         this.cantidad = cantidad;
         this.fecha = new Date();
         this.tipo = tipo;

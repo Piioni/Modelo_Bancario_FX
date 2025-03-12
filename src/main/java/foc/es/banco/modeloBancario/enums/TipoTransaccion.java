@@ -4,7 +4,9 @@ public enum TipoTransaccion {
     CREACION("Creacion"),
     DEPOSITO("Deposito"),
     REINTEGRO("Reintegro"),
-    ANULACION("Anulacion"),;
+    ANULACION("Anulacion"),
+    TRANSFERENCIA("Transferencia"),
+    RETIRO("Retiro");
 
 
     private String tipoTransaccion;

@@ -4,12 +4,14 @@ public abstract class Cuenta {
     protected int numeroDeCuenta;
     protected double saldo;
     protected Cliente titular;
+    private static int contador = 0;
 
     // Constructores
-    public Cuenta(int numeroDeCuenta, double saldo, Cliente titular) {
-        this.numeroDeCuenta = numeroDeCuenta;
+    public Cuenta( double saldo, Cliente titular) {
+        this.numeroDeCuenta = contador++;
         this.saldo = saldo;
         this.titular = titular;
+        System.out.println("Cuenta creada con exito con numero de cuenta: " + numeroDeCuenta + " e id de cliente: " + titular.getId());
     }
 
     public Cuenta() {

@@ -1,5 +1,6 @@
 package foc.es.banco.modeloBancario.classes;
 
+import foc.es.banco.modeloBancario.enums.TipoTransaccion;
 import foc.es.banco.modeloBancario.interfaces.OperacionesBancarias;
 
 public class CuentaCorriente extends Cuenta implements OperacionesBancarias {
@@ -7,9 +8,8 @@ public class CuentaCorriente extends Cuenta implements OperacionesBancarias {
     private HistorialTransacciones transacciones;
 
 
-
-    public CuentaCorriente(int numeroDeCuenta, double saldo, Cliente titular) {
-        super(numeroDeCuenta, saldo, titular);
+    public CuentaCorriente(double saldo, Cliente titular) {
+        super(saldo, titular);
         this.transacciones = new HistorialTransacciones();
     }
 
@@ -24,6 +24,7 @@ public class CuentaCorriente extends Cuenta implements OperacionesBancarias {
         if (saldo + interes >= cantidad) {
             saldo -= cantidad;
         }
+        transacciones.agregarTransaccion(new Transaccion(cantidad, TipoTransaccion.RETIRO));
     }
 
     @Override
@@ -33,17 +34,24 @@ public class CuentaCorriente extends Cuenta implements OperacionesBancarias {
 
     // Metodos de la interfaz
     @Override
-    public void transferir(Cuenta origen, Cuenta destino, double cantidad) {
+    public void transferir(Cuenta destino, double cantidad) {
+        if (saldo >= cantidad) {
+            saldo -= cantidad;
+            destino.ingresar(cantidad);
+            transacciones.agregarTransaccion(new Transaccion(cantidad, TipoTransaccion.TRANSFERENCIA));
+        }
 
     }
 
     @Override
     public void depositar(Cuenta cuenta, double cantidad) {
+        cuenta.ingresar(cantidad);
+        transacciones.agregarTransaccion(new Transaccion(cantidad, TipoTransaccion.DEPOSITO));
 
     }
 
     @Override
     public void consultarSaldo(Cuenta cuenta) {
-
+        System.out.println("El saldo de la cuenta es: " + cuenta.getSaldo());
     }
 }
