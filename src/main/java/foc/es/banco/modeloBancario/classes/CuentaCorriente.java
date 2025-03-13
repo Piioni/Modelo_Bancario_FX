@@ -5,17 +5,10 @@ import foc.es.banco.modeloBancario.interfaces.OperacionesBancarias;
 
 public class CuentaCorriente extends Cuenta implements OperacionesBancarias {
     private final double interes = 0.15;
-    private HistorialTransacciones transacciones;
 
 
     public CuentaCorriente(double saldo, Cliente titular) {
         super(saldo, titular);
-        this.transacciones = new HistorialTransacciones();
-    }
-
-    public CuentaCorriente() {
-        super();
-        this.transacciones = new HistorialTransacciones();
     }
 
     // Metodos de cuenta abstracta
@@ -23,8 +16,13 @@ public class CuentaCorriente extends Cuenta implements OperacionesBancarias {
     public void retirar(double cantidad) {
         if (saldo + interes >= cantidad) {
             saldo -= cantidad;
+            transacciones.agregarTransaccion(new Transaccion(cantidad, TipoTransaccion.RETIRO));
+
+            System.out.println("Retiro realizado con exito");
+        } else {
+            System.out.println("No se puede realizar el retiro, saldo insuficiente");
         }
-        transacciones.agregarTransaccion(new Transaccion(cantidad, TipoTransaccion.RETIRO));
+
     }
 
     @Override
