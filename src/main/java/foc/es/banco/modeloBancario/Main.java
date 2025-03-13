@@ -309,7 +309,7 @@ public class Main {
 
     private static void mostrarMenu() {
         System.out.println("Selecciona una opción");
-        System.out.println("1. Crear cuenta");
+        System.out.println("1. Crear cliente");
         System.out.println("2. Crear cuenta");
         System.out.println("3. Realizar una transferencia");
         System.out.println("4. Ingresar dinero");
