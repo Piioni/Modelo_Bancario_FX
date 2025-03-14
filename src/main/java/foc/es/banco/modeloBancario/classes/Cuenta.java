@@ -24,10 +24,17 @@ public abstract class Cuenta {
         saldo += cantidad;
     }
 
+    public void consultarMovimientos() {
+        List<Transaccion> trans = transacciones.getTransacciones();
+        System.out.println("Transacciones de la cuenta: ");
+        for (Transaccion t : trans) {
+            System.out.printf("Transacción: %s, Cantidad: %.2f, Tipo: %s%n", t.getFecha(), t.getCantidad(), t.getTipo());
+        }
+
+    }
+
     // Métodos abstractos
     public abstract void retirar(double cantidad);
-
-    public abstract void actualizarSaldo();
 
     // Getters and Setters
     public int getNumeroDeCuenta() {
@@ -39,24 +46,9 @@ public abstract class Cuenta {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
-    }
 
     public Cliente getTitular() {
         return titular;
     }
 
-    public void setTitular(Cliente titular) {
-        this.titular = titular;
-    }
-
-    public void consultarMovimientos() {
-        List<Transaccion> trans = transacciones.getTransacciones();
-        System.out.println("Transacciones de la cuenta: ");
-        for (Transaccion t : trans) {
-            System.out.printf("Transacción: %s, Cantidad: %.2f, Tipo: %s%n", t.getFecha(), t.getCantidad(), t.getTipo());
-        }
-
-    }
 }

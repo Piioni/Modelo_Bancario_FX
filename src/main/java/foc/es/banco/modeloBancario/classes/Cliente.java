@@ -15,6 +15,8 @@ public class Cliente {
         System.out.println("Cliente creado con exito con id: " + id);
     }
 
+    public Cliente() {
+    }
 
     public int getId() {
         return id;

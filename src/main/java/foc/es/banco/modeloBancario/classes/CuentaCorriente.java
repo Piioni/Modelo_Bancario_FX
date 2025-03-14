@@ -4,8 +4,7 @@ import foc.es.banco.modeloBancario.enums.TipoTransaccion;
 import foc.es.banco.modeloBancario.interfaces.OperacionesBancarias;
 
 public class CuentaCorriente extends Cuenta implements OperacionesBancarias {
-    private final double interes = 0.15;
-
+    protected final double interes = 0.15;
 
     public CuentaCorriente(double saldo, Cliente titular) {
         super(saldo, titular);
@@ -27,10 +26,6 @@ public class CuentaCorriente extends Cuenta implements OperacionesBancarias {
        }
    }
 
-   @Override
-   public void actualizarSaldo() {
-
-   }
 
    @Override
    public void transferir(Cuenta destino, double cantidad) {

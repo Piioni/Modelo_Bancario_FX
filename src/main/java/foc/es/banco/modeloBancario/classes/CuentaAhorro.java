@@ -4,8 +4,8 @@ import foc.es.banco.modeloBancario.enums.TipoTransaccion;
 import foc.es.banco.modeloBancario.interfaces.OperacionesBancarias;
 
 public class CuentaAhorro extends Cuenta implements OperacionesBancarias {
-    private double interes;
-    private double saldoMinimo;
+    protected double interes;
+    protected double saldoMinimo;
 
     public CuentaAhorro( double saldo, Cliente titular, double interes, double saldoMinimo) {
         super(saldo, titular);
@@ -29,14 +29,6 @@ public class CuentaAhorro extends Cuenta implements OperacionesBancarias {
         }
     }
 
-    @Override
-    public void actualizarSaldo() {
-        if (saldo > 0) {
-            saldo += saldo * interes;
-        } else {
-            System.out.println("No se puede actualizar el saldo, saldo insuficiente");
-        }
-    }
 
     @Override
     public void transferir(Cuenta destino, double cantidad) {
