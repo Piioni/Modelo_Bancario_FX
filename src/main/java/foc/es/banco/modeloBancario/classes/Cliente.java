@@ -32,7 +32,4 @@ public class Cliente {
         return telefono;
     }
 
-    public static int getContador() {
-        return contador;
-    }
 }

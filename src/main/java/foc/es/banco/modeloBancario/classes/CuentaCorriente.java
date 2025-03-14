@@ -12,44 +12,55 @@ public class CuentaCorriente extends Cuenta implements OperacionesBancarias {
     }
 
     // Metodos de cuenta abstracta
-    @Override
-    public void retirar(double cantidad) {
-        if (saldo + interes >= cantidad) {
-            saldo -= cantidad;
-            transacciones.agregarTransaccion(new Transaccion(cantidad, TipoTransaccion.RETIRO));
+   @Override
+   public void retirar(double cantidad) {
+       if (cantidad <= 0) {
+           System.out.println("La cantidad a retirar debe ser mayor que cero");
+           return;
+       }
+       if (saldo + interes >= cantidad) {
+           saldo -= cantidad;
+           transacciones.agregarTransaccion(new Transaccion(cantidad, TipoTransaccion.RETIRO));
+           System.out.println("Retiro realizado con éxito");
+       } else {
+           System.out.println("No se puede realizar el retiro, saldo insuficiente");
+       }
+   }
 
-            System.out.println("Retiro realizado con exito");
-        } else {
-            System.out.println("No se puede realizar el retiro, saldo insuficiente");
-        }
+   @Override
+   public void actualizarSaldo() {
 
-    }
+   }
 
-    @Override
-    public void actualizarSaldo() {
-        saldo -= 10;
-    }
+   @Override
+   public void transferir(Cuenta destino, double cantidad) {
+       if (cantidad <= 0) {
+           System.out.println("La cantidad a transferir debe ser mayor que cero");
+           return;
+       }
+       if (saldo >= cantidad) {
+           saldo -= cantidad;
+           destino.ingresar(cantidad);
+           transacciones.agregarTransaccion(new Transaccion(cantidad, TipoTransaccion.TRANSFERENCIA));
+           System.out.println("Transferencia realizada con éxito");
+       } else {
+           System.out.println("No se puede realizar la transferencia, saldo insuficiente");
+       }
+   }
 
-    // Metodos de la interfaz
-    @Override
-    public void transferir(Cuenta destino, double cantidad) {
-        if (saldo >= cantidad) {
-            saldo -= cantidad;
-            destino.ingresar(cantidad);
-            transacciones.agregarTransaccion(new Transaccion(cantidad, TipoTransaccion.TRANSFERENCIA));
-        }
+   @Override
+   public void depositar(Cuenta cuenta, double cantidad) {
+       if (cantidad <= 0) {
+           System.out.println("La cantidad a depositar debe ser mayor que cero");
+           return;
+       }
+       cuenta.ingresar(cantidad);
+       transacciones.agregarTransaccion(new Transaccion(cantidad, TipoTransaccion.DEPOSITO));
+       System.out.println("Depósito realizado con éxito");
+   }
 
-    }
-
-    @Override
-    public void depositar(Cuenta cuenta, double cantidad) {
-        cuenta.ingresar(cantidad);
-        transacciones.agregarTransaccion(new Transaccion(cantidad, TipoTransaccion.DEPOSITO));
-
-    }
-
-    @Override
-    public void consultarSaldo(Cuenta cuenta) {
-        System.out.println("El saldo de la cuenta es: " + cuenta.getSaldo());
-    }
+   @Override
+   public void consultarSaldo(Cuenta cuenta) {
+       System.out.println("El saldo de la cuenta es: " + cuenta.getSaldo());
+   }
 }

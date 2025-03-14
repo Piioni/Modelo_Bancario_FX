@@ -6,10 +6,6 @@ import java.util.List;
 public class HistorialTransacciones {
     List<Transaccion> transacciones;
 
-    public HistorialTransacciones(List<Transaccion> transacciones) {
-        this.transacciones = transacciones;
-    }
-
     public HistorialTransacciones() {
         this.transacciones = new ArrayList<>();
     }
