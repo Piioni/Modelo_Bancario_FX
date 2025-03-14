@@ -1,10 +1,17 @@
 package foc.es.banco.modeloBancario;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import foc.es.banco.modeloBancario.classes.Cliente;
 import foc.es.banco.modeloBancario.classes.Cuenta;
 import foc.es.banco.modeloBancario.classes.CuentaAhorro;
 import foc.es.banco.modeloBancario.classes.CuentaCorriente;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -12,10 +19,13 @@ import java.util.Scanner;
 public class Main {
     private static final List<Cliente> clientes = new ArrayList<>();
     private static final List<Cuenta> cuentas = new ArrayList<>();
+    private static final Gson gson = new Gson();
+
 
     public static void main(String[] args) {
         int opcion = -1;
         Scanner sc = new Scanner(System.in);
+        cargarDatos();
 
         while (opcion != 0) {
             mostrarMenu();
@@ -26,7 +36,60 @@ public class Main {
                 System.out.println("Introduce un número válido");
             }
         }
+        guardarDatos();
     }
+
+    private static void guardarDatos() {
+        try (FileWriter writer = new FileWriter("src/main/resources/clientes.json")) {
+            gson.toJson(clientes, writer);
+        } catch (IOException e) {
+            System.out.println("Error al guardar clientes: " + e.getMessage());
+        }
+
+        try (FileWriter writer = new FileWriter("src/main/resources/clientes.json")) {
+            gson.toJson(cuentas, writer);
+        } catch (IOException e) {
+            System.out.println("Error al guardar cuentas: " + e.getMessage());
+        }
+    }
+
+  private static void cargarDatos() {
+      try (FileReader reader = new FileReader("src/main/resources/clientes.json")) {
+          Type clienteListType = new TypeToken<List<Cliente>>() {}.getType();
+          List<Cliente> loadedClientes = gson.fromJson(reader, clienteListType);
+          if (loadedClientes != null) {
+              clientes.addAll(loadedClientes);
+          }
+      } catch (IOException e) {
+          System.out.println("Error al cargar clientes: " + e.getMessage());
+          crearArchivoSiNoExiste("src/main/resources/clientes.json");
+      }
+
+      try (FileReader reader = new FileReader("src/main/resources/cuentas.json")) {
+          Type cuentaListType = new TypeToken<List<Cuenta>>() {}.getType();
+          List<Cuenta> loadedCuentas = gson.fromJson(reader, cuentaListType);
+          if (loadedCuentas != null) {
+              cuentas.addAll(loadedCuentas);
+          }
+      } catch (IOException e) {
+          System.out.println("Error al cargar cuentas: " + e.getMessage());
+          crearArchivoSiNoExiste("src/main/resources/cuentas.json");
+      }
+  }
+
+  private static void crearArchivoSiNoExiste(String ruta) {
+      try {
+          File archivo = new File(ruta);
+          if (archivo.createNewFile()) {
+              System.out.println("Archivo creado: " + archivo.getName());
+          } else {
+              System.out.println("El archivo ya existe.");
+          }
+      } catch (IOException e) {
+          System.out.println("Error al crear el archivo: " + e.getMessage());
+      }
+  }
+
 
     private static void mostrarMenu() {
         System.out.println("Selecciona una opción");
@@ -77,18 +140,36 @@ public class Main {
     }
 
     private static Cliente crearCliente(Scanner sc) {
-        System.out.println("Introduce el nombre del usuario");
-        String nombre = sc.nextLine();
-        System.out.println("Introduce la dirección del usuario");
-        String direccion = sc.nextLine();
-        System.out.println("Introduce el teléfono del usuario");
-        String telefono = sc.nextLine();
+       System.out.println("Introduce el nombre del usuario");
+       String nombre = sc.nextLine().trim();
+       while (nombre.isEmpty()) {
+           System.out.println("El nombre no puede estar vacío. Introduce el nombre del usuario");
+           nombre = sc.nextLine().trim();
+       }
 
-        boolean clienteExistente = clientes.stream().anyMatch(c ->
-                c.getNombre().equals(nombre) &&
-                        c.getDireccion().equals(direccion) &&
-                        c.getTelefono().equals(telefono)
-        );
+       System.out.println("Introduce la dirección del usuario");
+       String direccion = sc.nextLine().trim();
+       while (direccion.isEmpty()) {
+           System.out.println("La dirección no puede estar vacía. Introduce la dirección del usuario");
+           direccion = sc.nextLine().trim();
+       }
+
+       System.out.println("Introduce el teléfono del usuario");
+       String telefono = sc.nextLine().trim();
+       while (!telefono.matches("\\d{10}")) {
+           System.out.println("El teléfono debe tener 10 dígitos. Introduce el teléfono del usuario");
+           telefono = sc.nextLine().trim();
+       }
+
+       final String finalNombre = nombre;
+       final String finalDireccion = direccion;
+       final String finalTelefono = telefono;
+
+       boolean clienteExistente = clientes.stream().anyMatch(c ->
+               c.getNombre().equals(finalNombre) &&
+                       c.getDireccion().equals(finalDireccion) &&
+                       c.getTelefono().equals(finalTelefono)
+       );
 
         if (clienteExistente) {
             System.out.println("Ya existe un cliente con los mismos atributos.");
@@ -165,6 +246,8 @@ public class Main {
             System.out.println("No hay cuentas suficientes existentes");
             return;
         }
+
+        consultarCuentasExistentes();
 
         try {
             System.out.println("Introduce el número de cuenta de origen");
