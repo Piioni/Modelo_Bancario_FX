@@ -92,7 +92,7 @@ public class Main {
 
 
     private static void mostrarMenu() {
-        System.out.println("Selecciona una opción");
+        System.out.println("\nSelecciona una opción\n");
         System.out.println("1. Crear cliente");
         System.out.println("2. Crear cuenta");
         System.out.println("3. Realizar una transferencia");
@@ -101,7 +101,7 @@ public class Main {
         System.out.println("6. Consultar saldo");
         System.out.println("7. Consultar movimientos");
         System.out.println("8. Consultar cuentas existentes");
-        System.out.println("0. Salir");
+        System.out.println("0. Salir\n");
     }
 
     private static void manejarOpcion(int opcion, Scanner sc) {
@@ -131,59 +131,59 @@ public class Main {
                 consultarCuentasExistentes();
                 break;
             case 0:
-                System.out.println("Saliendo...");
+                System.out.println("\nSaliendo...\n");
                 break;
             default:
-                System.out.println("Opción no válida");
+                System.out.println("\nOpción no válida\n");
                 break;
         }
     }
 
     private static Cliente crearCliente(Scanner sc) {
-       System.out.println("Introduce el nombre del usuario");
-       String nombre = sc.nextLine().trim();
-       while (nombre.isEmpty()) {
-           System.out.println("El nombre no puede estar vacío. Introduce el nombre del usuario");
-           nombre = sc.nextLine().trim();
-       }
+        System.out.println("\nIntroduce el nombre del usuario");
+        String nombre = sc.nextLine().trim();
+        while (nombre.isEmpty()) {
+            System.out.println("El nombre no puede estar vacío. Introduce el nombre del usuario");
+            nombre = sc.nextLine().trim();
+        }
 
-       System.out.println("Introduce la dirección del usuario");
-       String direccion = sc.nextLine().trim();
-       while (direccion.isEmpty()) {
-           System.out.println("La dirección no puede estar vacía. Introduce la dirección del usuario");
-           direccion = sc.nextLine().trim();
-       }
+        System.out.println("Introduce la dirección del usuario");
+        String direccion = sc.nextLine().trim();
+        while (direccion.isEmpty()) {
+            System.out.println("La dirección no puede estar vacía. Introduce la dirección del usuario");
+            direccion = sc.nextLine().trim();
+        }
 
-       System.out.println("Introduce el teléfono del usuario");
-       String telefono = sc.nextLine().trim();
-       while (!telefono.matches("\\d{10}")) {
-           System.out.println("El teléfono debe tener 10 dígitos. Introduce el teléfono del usuario");
-           telefono = sc.nextLine().trim();
-       }
+        System.out.println("Introduce el teléfono del usuario");
+        String telefono = sc.nextLine().trim();
+        while (!telefono.matches("\\d{10}")) {
+            System.out.println("El teléfono debe tener 10 dígitos. Introduce el teléfono del usuario");
+            telefono = sc.nextLine().trim();
+        }
 
-       final String finalNombre = nombre;
-       final String finalDireccion = direccion;
-       final String finalTelefono = telefono;
+        final String finalNombre = nombre;
+        final String finalDireccion = direccion;
+        final String finalTelefono = telefono;
 
-       boolean clienteExistente = clientes.stream().anyMatch(c ->
-               c.getNombre().equals(finalNombre) &&
-                       c.getDireccion().equals(finalDireccion) &&
-                       c.getTelefono().equals(finalTelefono)
-       );
+        boolean clienteExistente = clientes.stream().anyMatch(c ->
+                c.getNombre().equals(finalNombre) &&
+                        c.getDireccion().equals(finalDireccion) &&
+                        c.getTelefono().equals(finalTelefono)
+        );
 
         if (clienteExistente) {
-            System.out.println("Ya existe un cliente con los mismos atributos.");
+            System.out.println("\nYa existe un cliente con los mismos atributos.\n");
         } else {
             Cliente cliente = new Cliente(nombre, direccion, telefono);
             clientes.add(cliente);
-            System.out.println("Cliente creado con éxito");
+            System.out.println("\nCliente creado con éxito\n");
             return cliente;
         }
         return null;
     }
 
     private static void crearCuenta(Scanner sc) {
-        System.out.println("Introduce el tipo de cuenta");
+        System.out.println("\nIntroduce el tipo de cuenta");
         System.out.println("1. Cuenta corriente");
         System.out.println("2. Cuenta ahorro");
         int tipoCuenta = Integer.parseInt(sc.nextLine());
@@ -208,7 +208,7 @@ public class Main {
 
     private static Cliente seleccionarClienteExistente(Scanner sc) {
         if (clientes.isEmpty()) {
-            System.out.println("No hay clientes existentes");
+            System.out.println("\nNo hay clientes existentes\n");
             return null;
         }
 
@@ -216,7 +216,7 @@ public class Main {
         int id = Integer.parseInt(sc.nextLine());
         Cliente cliente = buscarCliente(id);
         if (cliente == null) {
-            System.out.println("Cliente no encontrado");
+            System.out.println("\nCliente no encontrado\n");
         }
         return cliente;
     }
@@ -236,14 +236,14 @@ public class Main {
                 cuentas.add(cuentaAhorro);
                 break;
             default:
-                System.out.println("Opción no válida");
+                System.out.println("\nOpción no válida\n");
                 break;
         }
     }
 
     private static void realizarTransferencia(Scanner sc) {
         if (cuentas.size() < 2) {
-            System.out.println("No hay cuentas suficientes existentes");
+            System.out.println("\nNo hay cuentas suficientes existentes\n");
             return;
         }
 
@@ -254,7 +254,7 @@ public class Main {
             int numeroCuentaOrigen = Integer.parseInt(sc.nextLine());
             Cuenta cuentaOrigen = buscarCuenta(numeroCuentaOrigen);
             if (cuentaOrigen == null) {
-                System.out.println("Cuenta no encontrada");
+                System.out.println("\nCuenta no encontrada\n");
                 return;
             }
 
@@ -262,7 +262,7 @@ public class Main {
             int numeroCuentaDestino = Integer.parseInt(sc.nextLine());
             Cuenta cuentaDestino = buscarCuenta(numeroCuentaDestino);
             if (cuentaDestino == null) {
-                System.out.println("Cuenta no encontrada");
+                System.out.println("\nCuenta no encontrada\n");
                 return;
             }
 
@@ -274,18 +274,18 @@ public class Main {
             } else if (cuentaOrigen instanceof CuentaAhorro) {
                 ((CuentaAhorro) cuentaOrigen).transferir(cuentaDestino, cantidad);
             }
-            System.out.println("Transferencia realizada con éxito");
+            System.out.println("\nTransferencia realizada con éxito\n");
             System.out.println("Saldo de la cuenta de origen: " + cuentaOrigen.getSaldo());
             System.out.println("Saldo de la cuenta de destino: " + cuentaDestino.getSaldo());
 
         } catch (NumberFormatException e) {
-            System.out.println("Introduce un número válido");
+            System.out.println("\nIntroduce un número válido\n");
         }
     }
 
     private static void ingresarDinero(Scanner sc) {
         if (cuentas.isEmpty()) {
-            System.out.println("No hay cuentas existentes");
+            System.out.println("\nNo hay cuentas existentes\n");
             return;
         }
 
@@ -294,7 +294,7 @@ public class Main {
             int numeroCuenta = Integer.parseInt(sc.nextLine());
             Cuenta cuenta = buscarCuenta(numeroCuenta);
             if (cuenta == null) {
-                System.out.println("Cuenta no encontrada");
+                System.out.println("\nCuenta no encontrada\n");
                 return;
             }
 
@@ -302,17 +302,17 @@ public class Main {
             double cantidad = Double.parseDouble(sc.nextLine());
             cuenta.ingresar(cantidad);
 
-            System.out.println("Ingreso realizado con éxito");
+            System.out.println("\nIngreso realizado con éxito\n");
             System.out.println("Saldo de la cuenta: " + cuenta.getSaldo());
 
         } catch (NumberFormatException e) {
-            System.out.println("Introduce un número válido");
+            System.out.println("\nIntroduce un número válido\n");
         }
     }
 
     private static void retirarDinero(Scanner sc) {
         if (cuentas.isEmpty()) {
-            System.out.println("No hay cuentas existentes");
+            System.out.println("\nNo hay cuentas existentes\n");
             return;
         }
 
@@ -321,7 +321,7 @@ public class Main {
             int numeroCuenta = Integer.parseInt(sc.nextLine());
             Cuenta cuenta = buscarCuenta(numeroCuenta);
             if (cuenta == null) {
-                System.out.println("Cuenta no encontrada");
+                System.out.println("\nCuenta no encontrada\n");
                 return;
             }
 
@@ -329,17 +329,17 @@ public class Main {
             double cantidad = Double.parseDouble(sc.nextLine());
             cuenta.retirar(cantidad);
 
-            System.out.println("Retiro realizado con éxito");
+            System.out.println("\nRetiro realizado con éxito\n");
             System.out.println("Saldo de la cuenta: " + cuenta.getSaldo());
 
         } catch (NumberFormatException e) {
-            System.out.println("Introduce un número válido");
+            System.out.println("\nIntroduce un número válido\n");
         }
     }
 
     private static void consultarSaldo(Scanner sc) {
         if (cuentas.isEmpty()) {
-            System.out.println("No hay cuentas existentes");
+            System.out.println("\nNo hay cuentas existentes\n");
             return;
         }
 
@@ -348,20 +348,20 @@ public class Main {
             int numeroCuenta = Integer.parseInt(sc.nextLine());
             Cuenta cuenta = buscarCuenta(numeroCuenta);
             if (cuenta == null) {
-                System.out.println("Cuenta no encontrada");
+                System.out.println("\nCuenta no encontrada\n");
                 return;
             }
 
-            System.out.println("Saldo de la cuenta: " + cuenta.getSaldo());
+            System.out.println("\nSaldo de la cuenta: " + cuenta.getSaldo() + "\n");
 
         } catch (NumberFormatException e) {
-            System.out.println("Introduce un número válido");
+            System.out.println("\nIntroduce un número válido\n");
         }
     }
 
     private static void consultarMovimientos(Scanner sc) {
         if (cuentas.isEmpty()) {
-            System.out.println("No hay cuentas existentes");
+            System.out.println("\nNo hay cuentas existentes\n");
             return;
         }
 
@@ -370,28 +370,30 @@ public class Main {
             int numeroCuenta = Integer.parseInt(sc.nextLine());
             Cuenta cuenta = buscarCuenta(numeroCuenta);
             if (cuenta == null) {
-                System.out.println("Cuenta no encontrada");
+                System.out.println("\nCuenta no encontrada\n");
                 return;
             }
 
             cuenta.consultarMovimientos();
 
         } catch (NumberFormatException e) {
-            System.out.println("Introduce un número válido");
+            System.out.println("\nIntroduce un número válido\n");
         }
     }
 
     private static void consultarCuentasExistentes() {
         if (cuentas.isEmpty()) {
-            System.out.println("No hay cuentas existentes");
+            System.out.println("\nNo hay cuentas existentes\n");
             return;
         }
 
-        System.out.println("Cuentas existentes: ");
+        System.out.println("\nCuentas existentes: ");
         for (Cuenta cuenta : cuentas) {
             System.out.printf("Número de cuenta: %d, Saldo: %.2f, Titular: %s%n", cuenta.getNumeroDeCuenta(), cuenta.getSaldo(), cuenta.getTitular().getNombre());
         }
+        System.out.println();
     }
+
 
     private static Cliente buscarCliente(int id) {
         return clientes.stream().filter(c -> c.getId() == id).findFirst().orElse(null);
