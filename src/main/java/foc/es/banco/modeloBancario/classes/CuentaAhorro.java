@@ -61,4 +61,15 @@ public class CuentaAhorro extends Cuenta implements OperacionesBancarias {
     public void consultarSaldo(Cuenta cuenta) {
         System.out.println("El saldo de la cuenta es: " + cuenta.getSaldo());
     }
+
+    @Override
+    public void actualizarSaldo() {
+        if (saldo >= saldoMinimo) {
+            saldo += saldo * interes;
+            System.out.println("Saldo actualizado con interés de cuenta de ahorro. Nuevo saldo: " + saldo);
+        } else {
+            System.out.println("No se puede actualizar el saldo, saldo insuficiente para aplicar interés.");
+        }
+    }
+
 }

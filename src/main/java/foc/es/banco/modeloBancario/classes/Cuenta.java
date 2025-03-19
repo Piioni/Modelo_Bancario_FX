@@ -36,6 +36,9 @@ public abstract class Cuenta {
     // Métodos abstractos
     public abstract void retirar(double cantidad);
 
+    public abstract void actualizarSaldo();
+
+
     // Getters and Setters
     public int getNumeroDeCuenta() {
         return numeroDeCuenta;

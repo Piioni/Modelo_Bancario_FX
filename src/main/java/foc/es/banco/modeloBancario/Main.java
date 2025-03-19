@@ -1,6 +1,7 @@
 package foc.es.banco.modeloBancario;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import foc.es.banco.modeloBancario.classes.Cliente;
 import foc.es.banco.modeloBancario.classes.Cuenta;
@@ -19,13 +20,14 @@ import java.util.Scanner;
 public class Main {
     private static final List<Cliente> clientes = new ArrayList<>();
     private static final List<Cuenta> cuentas = new ArrayList<>();
-    private static final Gson gson = new Gson();
+    private static final Gson gson = new GsonBuilder().create();
+
 
 
     public static void main(String[] args) {
         int opcion = -1;
         Scanner sc = new Scanner(System.in);
-        cargarDatos();
+//        cargarDatos();
 
         while (opcion != 0) {
             mostrarMenu();
@@ -36,59 +38,8 @@ public class Main {
                 System.out.println("Introduce un número válido");
             }
         }
-        guardarDatos();
+//        guardarDatos();
     }
-
-    private static void guardarDatos() {
-        try (FileWriter writer = new FileWriter("src/main/resources/clientes.json")) {
-            gson.toJson(clientes, writer);
-        } catch (IOException e) {
-            System.out.println("Error al guardar clientes: " + e.getMessage());
-        }
-
-        try (FileWriter writer = new FileWriter("src/main/resources/clientes.json")) {
-            gson.toJson(cuentas, writer);
-        } catch (IOException e) {
-            System.out.println("Error al guardar cuentas: " + e.getMessage());
-        }
-    }
-
-  private static void cargarDatos() {
-      try (FileReader reader = new FileReader("src/main/resources/clientes.json")) {
-          Type clienteListType = new TypeToken<List<Cliente>>() {}.getType();
-          List<Cliente> loadedClientes = gson.fromJson(reader, clienteListType);
-          if (loadedClientes != null) {
-              clientes.addAll(loadedClientes);
-          }
-      } catch (IOException e) {
-          System.out.println("Error al cargar clientes: " + e.getMessage());
-          crearArchivoSiNoExiste("src/main/resources/clientes.json");
-      }
-
-      try (FileReader reader = new FileReader("src/main/resources/cuentas.json")) {
-          Type cuentaListType = new TypeToken<List<Cuenta>>() {}.getType();
-          List<Cuenta> loadedCuentas = gson.fromJson(reader, cuentaListType);
-          if (loadedCuentas != null) {
-              cuentas.addAll(loadedCuentas);
-          }
-      } catch (IOException e) {
-          System.out.println("Error al cargar cuentas: " + e.getMessage());
-          crearArchivoSiNoExiste("src/main/resources/cuentas.json");
-      }
-  }
-
-  private static void crearArchivoSiNoExiste(String ruta) {
-      try {
-          File archivo = new File(ruta);
-          if (archivo.createNewFile()) {
-              System.out.println("Archivo creado: " + archivo.getName());
-          } else {
-              System.out.println("El archivo ya existe.");
-          }
-      } catch (IOException e) {
-          System.out.println("Error al crear el archivo: " + e.getMessage());
-      }
-  }
 
 
     private static void mostrarMenu() {
@@ -401,5 +352,56 @@ public class Main {
 
     private static Cuenta buscarCuenta(int numeroCuenta) {
         return cuentas.stream().filter(c -> c.getNumeroDeCuenta() == numeroCuenta).findFirst().orElse(null);
+    }
+
+    private static void guardarDatos() {
+        try (FileWriter writer = new FileWriter("src/main/resources/clientes.json")) {
+            gson.toJson(clientes, writer);
+        } catch (IOException e) {
+            System.out.println("Error al guardar clientes: " + e.getMessage());
+        }
+
+        try (FileWriter writer = new FileWriter("src/main/resources/cuentas.json")) {
+            gson.toJson(cuentas, writer);
+        } catch (IOException e) {
+            System.out.println("Error al guardar cuentas: " + e.getMessage());
+        }
+    }
+
+    private static void cargarDatos() {
+        try (FileReader reader = new FileReader("src/main/resources/clientes.json")) {
+            Type clienteListType = new TypeToken<List<Cliente>>() {}.getType();
+            List<Cliente> loadedClientes = gson.fromJson(reader, clienteListType);
+            if (loadedClientes != null) {
+                clientes.addAll(loadedClientes);
+            }
+        } catch (IOException e) {
+            System.out.println("Error al cargar clientes: " + e.getMessage());
+            crearArchivoSiNoExiste("src/main/resources/clientes.json");
+        }
+
+        try (FileReader reader = new FileReader("src/main/resources/cuentas.json")) {
+            Type cuentaListType = new TypeToken<List<Cuenta>>() {}.getType();
+            List<Cuenta> loadedCuentas = gson.fromJson(reader, cuentaListType);
+            if (loadedCuentas != null) {
+                cuentas.addAll(loadedCuentas);
+            }
+        } catch (IOException e) {
+            System.out.println("Error al cargar cuentas: " + e.getMessage());
+            crearArchivoSiNoExiste("src/main/resources/cuentas.json");
+        }
+    }
+
+    private static void crearArchivoSiNoExiste(String ruta) {
+        try {
+            File archivo = new File(ruta);
+            if (archivo.createNewFile()) {
+                System.out.println("Archivo creado: " + archivo.getName());
+            } else {
+                System.out.println("El archivo ya existe.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al crear el archivo: " + e.getMessage());
+        }
     }
 }

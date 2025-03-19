@@ -58,4 +58,10 @@ public class CuentaCorriente extends Cuenta implements OperacionesBancarias {
    public void consultarSaldo(Cuenta cuenta) {
        System.out.println("El saldo de la cuenta es: " + cuenta.getSaldo());
    }
+
+    @Override
+    public void actualizarSaldo() {
+        saldo += saldo * interes;
+        System.out.println("Saldo actualizado con interés de cuenta corriente. Nuevo saldo: " + saldo);
+    }
 }
